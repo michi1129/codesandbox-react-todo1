@@ -1,5 +1,8 @@
 import { useState } from "react";
 import "./styles.css";
+import { InputTodo } from "./components/InputTodo";
+import { IncompleteTodos } from "./components/IncompleteTodos";
+import { CompleteTodos } from "./components/CompleteTodos";
 
 export const App = () => {
   const [todoText, setTodoText] = useState("");
@@ -39,49 +42,17 @@ export const App = () => {
 
   return (
     <>
-      <div className="input-area">
-        <input
-          placeholder="TODOを入力"
-          value={todoText}
-          onChange={todoTextOnChange}
-        />
-        <button onClick={addOnClick}>追加</button>
-      </div>
-      <div className="incomplete-area">
-        <div>
-          <p className="title">未完了のTODO</p>
-          <ul>
-            {incompleteTodos.map((todo, index) => {
-              return (
-                <li key={todo}>
-                  <div className="list-row">
-                    <span>{todo}</span>
-                    <button onClick={() => completeOnClick(index)}>完了</button>
-                    <button onClick={() => deleteOnClick(index)}>削除</button>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </div>
-      <div className="complete-area">
-        <div>
-          <p className="title">完了したTODO</p>
-          <ul>
-            {completeTodos.map((todo, index) => {
-              return (
-                <li key={todo}>
-                  <div className="list-row">
-                    <span>{todo}</span>
-                    <button onClick={() => backOnClick(index)}>戻す</button>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </div>
+      <InputTodo
+        todoText={todoText}
+        onChange={todoTextOnChange}
+        onClick={addOnClick}
+      />
+      <IncompleteTodos
+        todos={incompleteTodos}
+        onComplete={completeOnClick}
+        onDelete={deleteOnClick}
+      />
+      <CompleteTodos todos={completeTodos} onBack={backOnClick} />
     </>
   );
 };
